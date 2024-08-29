@@ -1,8 +1,8 @@
 
-/**
- * En caso de que no conozcas js. este metodo  es una funcion
- * recibe un valor y retorna un objeto con una propiedad valor que tiene el valor recibido
- */
+
+//   En caso de que no conozcas js. este metodo  es una funcion
+//   recibe un valor y retorna un objeto con una propiedad valor que tiene el valor recibido
+ 
 function valorInicial(valorInicial) {
     return { valor: valorInicial };
 }
