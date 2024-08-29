@@ -31,6 +31,13 @@ Si gustan pueden usar este proyecto como base para empezar el taller
 
 # Taller de React Native: Ejercicios de Componentes
 
+## Como se entrega el taller
+
+Tienen dos formas de entregar este taller.
+1. Adjuntar todos los archivos .js usados, Siendo este el archivo `App.js` y todos los componentes
+dentro de la carpeta `components/`
+2. Monstar un repositorio con el proyecto creado <--- prefiero eso
+
 Este taller está diseñado para ayudarte a aprender y practicar conceptos clave de React Native relacionados con componentes, uso del estado, manejo de eventos y comunicación entre componentes.
 
 ## 1. Paso de Parámetros a Componentes
