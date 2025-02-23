@@ -1,30 +1,110 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import ListaContador from './components/ListaContador';
+import { StyleSheet, View, Text, SafeAreaView, FlatList, TextInput} from 'react-native';
+import { Alert } from 'react-native';
+import { useState } from 'react';
+import Greeting from './components/Greeting';
+import UserDetails from './components/UserDetails';
+import Task from './components/Task';
+import ToggleText from './components/ToggleText';
+import DynamicForm from './components/DynamicForm';
+import ClickCounter from './components/ContadordeClics';
+import RegistrationForm from './components/RegistrationForm';
+import ThemeSwitcher from './components/ThemeSwitcher';
+import AlertButton from './components/AlertButton';
+import GuessingGame from './components/GuessingGame';
+import ImageGallery from './components/ImageGallery';
+import ParentCounter from './components/ParentCounter';
 
 export default function App() {
-  
-    // ListaContador es un ejemplo que tiene todo lo visto en clase
-    // el complemento de este ejmplo es el archivo codigoContador.js
-    // Esta es como se veria en codigo sin la parte grafica. 
-    // No es necesario que le den vueltas a este codigo. Es en caso de que les pueda ser util
-    // La diea del taller es que los puntos los agreguen dentro del tag SafeAreaView
-    // Notas:
-    // Estos comentarios pueden borrarlos si les estorban. solo es para que entiendan el codigo
-    // Si tienen dudas no duden en preguntar
-    // Adiconlamente van agregando los componentes que se les piden en el taller
-    // y luego los van comentando para que no se les mezclen los componentes
-    // los componentes se comentan como esta el segundo componente de este archivo
-   
-  return (
-    <View style={styles.container}>
-    <SafeAreaView style={styles.safeArea}>
-      <ListaContador />
-      {/* <ListaContador /> */}
+  const myTask = { title: 'Aprender React Native', completed: true };
+
+  const [data, setData] = useState({
+    nombre:'',
+    correo: '',
+    contraseña:''}
+  );
+
+  const recibirForm = (nombre, correo, contraseña) =>{
+    setData({nombre, correo, contraseña});
+  };
+
+  const [isDark, SetIsDark] = useState(false);
+
+  const temas = {
+    backgroundColor: isDark ? "#222" : "#fff",
+    color: isDark ? "#fff" : "#000",
+  };
+
+  const switchTheme = () =>{
+    SetIsDark(!isDark)
+}
+
+  const alertar = () => {
+      Alert.alert("Atención!", "Fije la vista fuera de la pantalla!");
+    };
+    
+    const respuestasTaller  = [
+      {
+        id : '1',
+        title: 'Paso de Parámetros a Componentes',
+        componentes: [
+          <Greeting key="greeting" name="Valerie" />,
+          <UserDetails key="userdetails" nombre="Earth" edad="4.54 billion" ocupacion="Planet" />,
+          <Task key="task" task={myTask} />
+        ]
+      },
+      {
+        id: '2',
+        title: 'Uso de useState',
+        componentes: [
+          <ToggleText key="toggletext" />,
+          <DynamicForm key="dynamicform" />,
+          <ClickCounter key="clickcounter" />
+        ]
+      },
+      {
+        id: '3',
+        title: 'Eventos con Botones',
+        componentes: [
+          <RegistrationForm key="registrationform" pedirForm={recibirForm} />,
+          <Text key="formName">Nombre: {data.nombre}</Text>,
+          <Text key="formEmail">Correo: {data.correo}</Text>,
+          <Text key="formPasswortd">Contraseña: {"*".repeat(data.contraseña.length)}</Text>,
+          <ThemeSwitcher key="themeswitcher" toggle={switchTheme} />,
+          <AlertButton key="alertbutton" onPress={alertar} />
+        ]
+      },
+      {
+        id:'4',
+        title: 'Paso de parámetros de Padre a Hijo',
+        componentes: [
+          <ParentCounter key="parentcounter" />,
+          <ImageGallery key="imagegallery" />,
+          <GuessingGame key="guessinggame" />
+        ] 
+      }
+    ]
+   return (
+    
+    <View style={[styles.container, { backgroundColor: temas.backgroundColor }]}>
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: temas.backgroundColor }]}>
+    <FlatList
+          data={respuestasTaller}
+          renderItem={({ item }) => (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>{item.title}</Text>
+              {item.componentes}
+              </View>
+
+          )}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={{ paddingBottom: 30 }}
+        />
     </SafeAreaView>
     </View>
+    
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -38,4 +118,16 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
   },
+  section: {
+    marginBottom: 20,
+    padding: 40,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 30,
+  }
 });
